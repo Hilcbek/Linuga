@@ -11,6 +11,7 @@ import {
 } from '@expo-google-fonts/inter';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import '../global.css';
 
@@ -42,6 +43,7 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <StatusBar animated backgroundColor='#000' style={'dark'} />
       <Slot />
     </ClerkProvider>
   );
