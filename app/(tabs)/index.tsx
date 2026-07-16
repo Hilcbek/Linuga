@@ -1,7 +1,7 @@
-import { useClerk } from '@clerk/expo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useClerk } from '@clerk/expo';
 import { Image } from 'expo-image';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { styled } from 'nativewind';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -25,7 +25,6 @@ export default function Index() {
     await AsyncStorage.clear();
     clearSelectedLanguage();
   };
-  const router = useRouter()
 
   return (
     <View className="flex-1 items-center justify-center bg-background px-6">
@@ -74,24 +73,6 @@ export default function Index() {
       >
         <Text className="font-inter-semibold text-base text-lingua-deep-purple">
           Clear AsyncStorage
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        activeOpacity={0.86}
-        onPress={() => void handleClearAsyncStorage()}
-        style={styles.button}
-      >
-        <Text className="font-inter-semibold text-base text-lingua-deep-purple">
-          Clear AsyncStorage
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        activeOpacity={0.86}
-        onPress={() => router.push("/(tabs)")}
-        style={styles.button}
-      >
-        <Text className="font-inter-semibold text-base text-lingua-deep-purple">
-          Go to tabs
         </Text>
       </TouchableOpacity>
     </View>

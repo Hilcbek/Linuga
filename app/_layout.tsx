@@ -13,6 +13,9 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+
+import { useLanguageStore } from '@/store/language-store';
+
 import '../global.css';
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
@@ -51,13 +54,18 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { isLoaded, isSignedIn } = useAuth();
+  const hasHydrated = useLanguageStore((state) => state.hasHydrated);
+  const selectedLanguageId = useLanguageStore((state) => state.selectedLanguageId);
 
-  if (!isLoaded) return null;
+  if (!isLoaded || (isSignedIn && !hasHydrated)) return null;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={isSignedIn}>
-        <Stack.Screen name="index" />
+        <Stack.Protected guard={Boolean(selectedLanguageId)}>
+          <Stack.Screen name="(tabs)" />
+        </Stack.Protected>
+
         <Stack.Screen name="language-selection" />
       </Stack.Protected>
 

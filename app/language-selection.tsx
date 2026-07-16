@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import { images } from '@/constants/images';
 import { languages } from '@/data/languages';
+import { useLanguageStore } from '@/store/language-store';
 import { colors } from '@/theme';
 import type { LanguageId } from '@/types/learning';
 
@@ -27,8 +28,12 @@ function formatLearnerCount(learnerCount: number) {
 
 export default function LanguageSelectionScreen() {
   const router = useRouter();
+  const selectedLanguageId = useLanguageStore((state) => state.selectedLanguageId);
+  const setSelectedLanguage = useLanguageStore((state) => state.setSelectedLanguage);
   const [query, setQuery] = useState('');
-  const [selectedLanguageId, setSelectedLanguageId] = useState<LanguageId>('spanish');
+  const [draftLanguageId, setDraftLanguageId] = useState<LanguageId>(
+    selectedLanguageId ?? 'spanish',
+  );
 
   const filteredLanguages = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase();
@@ -43,6 +48,10 @@ export default function LanguageSelectionScreen() {
   }, [query]);
 
   const handleBack = () => {
+    if (!selectedLanguageId) {
+      return;
+    }
+
     if (router.canGoBack()) {
       router.back();
       return;
@@ -52,6 +61,7 @@ export default function LanguageSelectionScreen() {
   };
 
   const handleConfirm = () => {
+    setSelectedLanguage(draftLanguageId);
     router.replace('/');
   };
 
@@ -111,7 +121,7 @@ export default function LanguageSelectionScreen() {
 
           <View className="gap-2">
             {filteredLanguages.map((language) => {
-              const isSelected = language.id === selectedLanguageId;
+              const isSelected = language.id === draftLanguageId;
 
               return (
                 <TouchableOpacity
@@ -120,7 +130,7 @@ export default function LanguageSelectionScreen() {
                   activeOpacity={0.82}
                   className="h-20.5 flex-row items-center rounded-[22px] px-4"
                   key={language.id}
-                  onPress={() => setSelectedLanguageId(language.id)}
+                  onPress={() => setDraftLanguageId(language.id)}
                   style={[styles.languageCard, isSelected && styles.selectedLanguageCard]}
                 >
                   <StyledImage
