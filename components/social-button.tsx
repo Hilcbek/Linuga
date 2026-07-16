@@ -1,33 +1,36 @@
-import { colors } from '@/theme';
-import { FontAwesome } from '@expo/vector-icons';
+import { images } from '@/constants/images';
+import { Image } from 'expo-image';
+import { styled } from 'nativewind';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-type SocialProvider = 'google' | 'facebook' | 'apple';
-
 type SocialButtonProps = {
-  icon: SocialProvider;
-  label: string;
+  disabled?: boolean;
   onPress?: () => void;
 };
 
-const iconColors: Record<SocialProvider, string> = {
-  google: '#4285F4',
-  facebook: '#1877F2',
-  apple: colors.neutral.textPrimary,
-};
+const StyledImage = styled(Image);
 
-export function SocialButton({ icon, label, onPress }: SocialButtonProps) {
+export function SocialButton({ disabled = false, onPress }: SocialButtonProps) {
   return (
     <TouchableOpacity
       activeOpacity={0.78}
-      className="h-[58px] flex-row items-center rounded-[17px] border border-[#ECEEF3] bg-background px-[18px]"
+      accessibilityLabel="Continue with Google"
+      className={`h-11 flex-row items-center rounded-sm border border-[#747775] bg-white px-3 ${disabled ? 'opacity-50' : ''}`}
+      disabled={disabled}
       onPress={onPress}
       style={{ borderCurve: 'continuous' }}
     >
-      <View className="w-12 items-center">
-        <FontAwesome color={iconColors[icon]} name={icon} size={icon === 'apple' ? 30 : 28} />
+      <View className="w-8 items-start">
+        <StyledImage
+          className="size-5"
+          contentFit="contain"
+          source={images.googleGLogo}
+        />
       </View>
-      <Text className="flex-1 font-inter-regular text-[16px] text-text-primary">{label}</Text>
+      <Text className="flex-1 text-center font-inter-medium text-[14px] leading-5 text-[#1F1F1F]">
+        Continue with Google
+      </Text>
+      <View className="w-8" />
     </TouchableOpacity>
   );
 }

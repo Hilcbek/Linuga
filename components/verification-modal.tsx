@@ -1,5 +1,4 @@
 import { colors } from '@/theme';
-import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -14,14 +13,23 @@ import {
 
 type VerificationModalProps = {
   email: string;
+  error?: string | null;
+  isLoading?: boolean;
   visible: boolean;
   onClose: () => void;
+  onVerify: (code: string) => Promise<void>;
 };
 
-export function VerificationModal({ email, visible, onClose }: VerificationModalProps) {
+export function VerificationModal({
+  email,
+  error,
+  isLoading = false,
+  visible,
+  onClose,
+  onVerify,
+}: VerificationModalProps) {
   const [code, setCode] = useState('');
   const inputRef = useRef<TextInput>(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (!visible) {
@@ -33,14 +41,13 @@ export function VerificationModal({ email, visible, onClose }: VerificationModal
     return () => clearTimeout(focusTimer);
   }, [visible]);
 
-  const handleCodeChange = (value: string) => {
+  const handleCodeChange = async (value: string) => {
     const nextCode = value.replace(/\D/g, '').slice(0, 6);
     setCode(nextCode);
 
-    if (nextCode.length === 6) {
+    if (nextCode.length === 6 && !isLoading) {
       inputRef.current?.blur();
-      onClose();
-      router.replace('/');
+      await onVerify(nextCode);
     }
   };
 
@@ -91,16 +98,22 @@ export function VerificationModal({ email, visible, onClose }: VerificationModal
             ref={inputRef}
             accessibilityLabel="Six digit verification code"
             caretHidden
+            editable={!isLoading}
             keyboardType="number-pad"
             maxLength={6}
-            onChangeText={handleCodeChange}
+            onChangeText={(value) => void handleCodeChange(value)}
             style={styles.hiddenInput}
             value={code}
           />
 
           <Text className="mt-5 text-center font-inter-regular text-[13px] text-text-secondary">
-            Enter the 6-digit code to continue
+            {isLoading ? 'Verifying…' : 'Enter the 6-digit code to continue'}
           </Text>
+          {error ? (
+            <Text className="mt-2 text-center font-inter-regular text-[13px] text-error">
+              {error}
+            </Text>
+          ) : null}
         </View>
       </KeyboardAvoidingView>
     </Modal>

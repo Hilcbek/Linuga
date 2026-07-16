@@ -2,6 +2,7 @@ import { SocialButton } from '@/components/social-button';
 import { VerificationModal } from '@/components/verification-modal';
 import { images } from '@/constants/images';
 import { colors } from '@/theme';
+import { useSSO } from '@clerk/expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Link, useRouter } from 'expo-router';
@@ -21,21 +22,104 @@ const StyledImage = styled(Image);
 
 type AuthScreenProps = {
   mode: 'sign-up' | 'sign-in';
+  onSubmit: (credentials: {
+    email: string;
+    password: string;
+  }) => Promise<{ requiresVerification: boolean }>;
+  onVerify?: (code: string) => Promise<void>;
 };
 
-export function AuthScreen({ mode }: AuthScreenProps) {
+type AuthState = {
+  email: string;
+  password: string;
+  passwordVisible: boolean;
+  verificationVisible: boolean;
+  isLoading: boolean;
+  error: string | null;
+};
+
+const initialAuthState: AuthState = {
+  email: '',
+  password: '',
+  passwordVisible: false,
+  verificationVisible: false,
+  isLoading: false,
+  error: null,
+};
+
+export function AuthScreen({ mode, onSubmit, onVerify }: AuthScreenProps) {
   const isSignUp = mode === 'sign-up';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [verificationVisible, setVerificationVisible] = useState(false);
+  const [auth, setAuth] = useState<AuthState>(initialAuthState);
   const router = useRouter();
+  const { startSSOFlow } = useSSO();
 
   const title = isSignUp ? 'Create your account' : 'Welcome back';
   const subtitle = isSignUp
     ? 'Start your language journey today ✨'
     : 'Continue your language journey ✨';
   const actionLabel = isSignUp ? 'Sign Up' : 'Sign In';
+
+  const getErrorMessage = (caughtError: unknown) => {
+    if (caughtError instanceof Error) return caughtError.message;
+    return 'Something went wrong. Please try again.';
+  };
+
+  const handleSubmit = async () => {
+    setAuth((current) => ({ ...current, error: null }));
+
+    if (!auth.email.trim() || !auth.password) {
+      setAuth((current) => ({ ...current, error: 'Enter your email and password.' }));
+      return;
+    }
+
+    setAuth((current) => ({ ...current, isLoading: true }));
+    try {
+      const { requiresVerification } = await onSubmit({
+        email: auth.email.trim(),
+        password: auth.password,
+      });
+      if (requiresVerification) {
+        setAuth((current) => ({ ...current, verificationVisible: true }));
+      }
+    } catch (caughtError) {
+      setAuth((current) => ({ ...current, error: getErrorMessage(caughtError) }));
+    } finally {
+      setAuth((current) => ({ ...current, isLoading: false }));
+    }
+  };
+
+  const handleVerify = async (code: string) => {
+    if (!onVerify) return;
+
+    setAuth((current) => ({ ...current, error: null, isLoading: true }));
+    try {
+      await onVerify(code);
+      setAuth((current) => ({ ...current, verificationVisible: false }));
+    } catch (caughtError) {
+      setAuth((current) => ({ ...current, error: getErrorMessage(caughtError) }));
+    } finally {
+      setAuth((current) => ({ ...current, isLoading: false }));
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    setAuth((current) => ({ ...current, error: null, isLoading: true }));
+    try {
+      const { createdSessionId, setActive } = await startSSOFlow({
+        strategy: 'oauth_google',
+      });
+
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
+        router.replace('/');
+      }
+    } catch (caughtError) {
+      setAuth((current) => ({ ...current, error: getErrorMessage(caughtError) }));
+      console.error(caughtError)
+    } finally {
+      setAuth((current) => ({ ...current, isLoading: false }));
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -63,9 +147,9 @@ export function AuthScreen({ mode }: AuthScreenProps) {
           </Text>
         </View>
 
-        <View className="h-[190px] items-center justify-center">
+        <View className="h-47.5 items-center justify-center">
           <StyledImage
-            className="h-full w-[250px]"
+            className="h-full w-62.5"
             contentFit="contain"
             source={images.mascotAuth}
           />
@@ -78,50 +162,62 @@ export function AuthScreen({ mode }: AuthScreenProps) {
               autoCapitalize="none"
               autoComplete="email"
               keyboardType="email-address"
-              onChangeText={setEmail}
+              onChangeText={(email) => setAuth((current) => ({ ...current, email }))}
               placeholder="alex@gmail.com"
               placeholderTextColor={colors.neutral.textPrimary}
               style={styles.input}
-              value={email}
+              value={auth.email}
             />
           </View>
 
-          {isSignUp ? (
-            <View style={styles.inputContainer}>
-              <Text className="font-inter-regular text-[13px] text-text-secondary">Password</Text>
-              <View className="flex-row items-center">
-                <TextInput
-                  autoComplete="new-password"
-                  onChangeText={setPassword}
-                  placeholder="••••••••"
-                  placeholderTextColor={colors.neutral.textPrimary}
-                  secureTextEntry={!passwordVisible}
-                  style={[styles.input, styles.passwordInput]}
-                  value={password}
+          <View style={styles.inputContainer}>
+            <Text className="font-inter-regular text-[13px] text-text-secondary">Password</Text>
+            <View className="flex-row items-center">
+              <TextInput
+                autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                onChangeText={(password) => setAuth((current) => ({ ...current, password }))}
+                placeholder="••••••••"
+                placeholderTextColor={colors.neutral.textPrimary}
+                secureTextEntry={!auth.passwordVisible}
+                style={[styles.input, styles.passwordInput]}
+                value={auth.password}
+              />
+              <TouchableOpacity
+                accessibilityLabel={auth.passwordVisible ? 'Hide password' : 'Show password'}
+                activeOpacity={0.7}
+                onPress={() =>
+                  setAuth((current) => ({
+                    ...current,
+                    passwordVisible: !current.passwordVisible,
+                  }))
+                }
+                style={styles.eyeButton}
+              >
+                <Ionicons
+                  color="#73809F"
+                  name={auth.passwordVisible ? 'eye-off-outline' : 'eye-outline'}
+                  size={25}
                 />
-                <TouchableOpacity
-                  accessibilityLabel={passwordVisible ? 'Hide password' : 'Show password'}
-                  activeOpacity={0.7}
-                  onPress={() => setPasswordVisible((visible) => !visible)}
-                  style={styles.eyeButton}
-                >
-                  <Ionicons
-                    color="#73809F"
-                    name={passwordVisible ? 'eye-off-outline' : 'eye-outline'}
-                    size={25}
-                  />
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
-          ) : null}
+          </View>
 
           <TouchableOpacity
             activeOpacity={0.86}
-            onPress={() => setVerificationVisible(true)}
-            style={styles.primaryButton}
+            disabled={auth.isLoading}
+            onPress={() => void handleSubmit()}
+            style={[styles.primaryButton, auth.isLoading && styles.disabledButton]}
           >
-            <Text className="font-inter-semibold text-[18px] text-white">{actionLabel}</Text>
+            <Text className="font-inter-semibold text-[18px] text-white">
+              {auth.isLoading ? 'Please wait…' : actionLabel}
+            </Text>
           </TouchableOpacity>
+
+          {auth.error && !auth.verificationVisible ? (
+            <Text className="text-center font-inter-regular text-[13px] text-error">
+              {auth.error}
+            </Text>
+          ) : null}
 
           <View className="flex-row items-center gap-4 py-1">
             <View className="h-px flex-1 bg-border" />
@@ -131,9 +227,10 @@ export function AuthScreen({ mode }: AuthScreenProps) {
             <View className="h-px flex-1 bg-border" />
           </View>
 
-          <SocialButton icon="google" label="Continue with Google" />
-          <SocialButton icon="facebook" label="Continue with Facebook" />
-          <SocialButton icon="apple" label="Continue with Apple" />
+          <SocialButton
+            disabled={auth.isLoading}
+            onPress={() => void handleGoogleAuth()}
+          />
         </View>
 
         <View className="flex-row justify-center pb-4 pt-8">
@@ -148,11 +245,19 @@ export function AuthScreen({ mode }: AuthScreenProps) {
         </View>
       </ScrollView>
 
-      <VerificationModal
-        email={email.trim() || 'alex@gmail.com'}
-        onClose={() => setVerificationVisible(false)}
-        visible={verificationVisible}
-      />
+      {onVerify ? (
+        <VerificationModal
+          email={auth.email.trim() || 'alex@gmail.com'}
+          error={auth.error}
+          isLoading={auth.isLoading}
+          onClose={() =>
+            setAuth((current) => ({ ...current, error: null, verificationVisible: false }))
+          }
+          onVerify={handleVerify}
+          visible={auth.verificationVisible}
+        />
+      ) : null}
+      <View nativeID="clerk-captcha" />
     </SafeAreaView>
   );
 }
@@ -207,5 +312,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brand.deepPurple,
     boxShadow: '0 5px 0 #4527D9',
     marginBottom: 5,
+  },
+  disabledButton: {
+    opacity: 0.55,
   },
 });
