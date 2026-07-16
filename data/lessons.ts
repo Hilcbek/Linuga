@@ -18,6 +18,683 @@ function createTeacherPrompt({ language, goal, focus }: TeacherPromptOptions) {
   ].join(' ');
 }
 
+type SupplementalLanguageId = Exclude<LanguageId, 'spanish'>;
+
+interface SupplementalLessonContent {
+  description: string;
+  expectedAnswer: string;
+  goal: string;
+  phrase: Lesson['phrases'][number];
+  prompt: string;
+  slug: string;
+  title: string;
+  vocabulary: Lesson['vocabulary'];
+}
+
+interface SupplementalLanguageLessons {
+  languageId: SupplementalLanguageId;
+  languageName: string;
+  lessons: SupplementalLessonContent[];
+  unitId: string;
+}
+
+const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
+  {
+    languageId: 'french',
+    languageName: 'French',
+    unitId: 'french-unit-1-first-conversations',
+    lessons: [
+      {
+        slug: 'daily-life',
+        title: 'Daily Life',
+        description: 'Talk about one simple part of your daily routine.',
+        goal: 'Describe a simple morning routine in French.',
+        vocabulary: [
+          {
+            id: 'french-daily-morning',
+            term: 'le matin',
+            translation: 'the morning',
+            pronunciation: 'luh mah-TAN',
+          },
+          {
+            id: 'french-daily-work',
+            term: 'travailler',
+            translation: 'to work',
+            pronunciation: 'trah-vah-YAY',
+          },
+        ],
+        phrase: {
+          id: 'french-daily-phrase',
+          text: 'Je travaille le matin.',
+          translation: 'I work in the morning.',
+          pronunciation: 'zhuh trah-VAI luh mah-TAN',
+        },
+        prompt: 'Que faites-vous le matin ?',
+        expectedAnswer: 'Je travaille le matin.',
+      },
+      {
+        slug: 'travel-directions',
+        title: 'Travel & Directions',
+        description: 'Ask where a place is and follow a simple direction.',
+        goal: 'Ask for and understand a basic direction in French.',
+        vocabulary: [
+          {
+            id: 'french-directions-left',
+            term: 'à gauche',
+            translation: 'to the left',
+            pronunciation: 'ah GOHSH',
+          },
+          {
+            id: 'french-directions-right',
+            term: 'à droite',
+            translation: 'to the right',
+            pronunciation: 'ah DRWAHT',
+          },
+        ],
+        phrase: {
+          id: 'french-directions-phrase',
+          text: 'Où est la gare ?',
+          translation: 'Where is the train station?',
+          pronunciation: 'oo eh lah GAHR',
+        },
+        prompt: 'Vous cherchez la gare. Que dites-vous ?',
+        expectedAnswer: 'Où est la gare ?',
+      },
+      {
+        slug: 'shopping',
+        title: 'Shopping',
+        description: 'Ask the price of an item in a shop.',
+        goal: 'Ask how much something costs in French.',
+        vocabulary: [
+          {
+            id: 'french-shopping-price',
+            term: 'le prix',
+            translation: 'the price',
+            pronunciation: 'luh PREE',
+          },
+          {
+            id: 'french-shopping-shirt',
+            term: 'la chemise',
+            translation: 'the shirt',
+            pronunciation: 'lah shuh-MEEZ',
+          },
+        ],
+        phrase: {
+          id: 'french-shopping-phrase',
+          text: 'Combien ça coûte ?',
+          translation: 'How much does it cost?',
+          pronunciation: 'kohm-BYAN sah KOOT',
+        },
+        prompt: 'Vous voulez connaître le prix. Que dites-vous ?',
+        expectedAnswer: 'Combien ça coûte ?',
+      },
+      {
+        slug: 'family-friends',
+        title: 'Family & Friends',
+        description: 'Introduce a friend or family member.',
+        goal: 'Introduce someone important to you in French.',
+        vocabulary: [
+          {
+            id: 'french-family-family',
+            term: 'la famille',
+            translation: 'the family',
+            pronunciation: 'lah fah-MEE',
+          },
+          {
+            id: 'french-family-friend',
+            term: 'un ami',
+            translation: 'a friend',
+            pronunciation: 'uhn ah-MEE',
+          },
+        ],
+        phrase: {
+          id: 'french-family-phrase',
+          text: 'Voici mon ami.',
+          translation: 'This is my friend.',
+          pronunciation: 'vwah-SEE mohn ah-MEE',
+        },
+        prompt: 'Présentez votre ami.',
+        expectedAnswer: 'Voici mon ami.',
+      },
+    ],
+  },
+  {
+    languageId: 'japanese',
+    languageName: 'Japanese',
+    unitId: 'japanese-unit-1-first-conversations',
+    lessons: [
+      {
+        slug: 'daily-life',
+        title: 'Daily Life',
+        description: 'Talk about a simple part of your morning.',
+        goal: 'Describe one morning activity in Japanese.',
+        vocabulary: [
+          {
+            id: 'japanese-daily-morning',
+            term: 'あさ',
+            translation: 'morning',
+            pronunciation: 'ah-sah',
+          },
+          {
+            id: 'japanese-daily-study',
+            term: 'べんきょうする',
+            translation: 'to study',
+            pronunciation: 'ben-kyoh soo-roo',
+          },
+        ],
+        phrase: {
+          id: 'japanese-daily-phrase',
+          text: 'あさにべんきょうします。',
+          translation: 'I study in the morning.',
+          pronunciation: 'ah-sah nee ben-kyoh shee-mahss',
+        },
+        prompt: 'あさになにをしますか。',
+        expectedAnswer: 'あさにべんきょうします。',
+      },
+      {
+        slug: 'travel-directions',
+        title: 'Travel & Directions',
+        description: 'Ask where the station is and understand directions.',
+        goal: 'Ask for a basic direction in Japanese.',
+        vocabulary: [
+          {
+            id: 'japanese-directions-left',
+            term: 'ひだり',
+            translation: 'left',
+            pronunciation: 'hee-dah-ree',
+          },
+          {
+            id: 'japanese-directions-right',
+            term: 'みぎ',
+            translation: 'right',
+            pronunciation: 'mee-gee',
+          },
+        ],
+        phrase: {
+          id: 'japanese-directions-phrase',
+          text: 'えきはどこですか。',
+          translation: 'Where is the station?',
+          pronunciation: 'eh-kee wah doh-koh dess-kah',
+        },
+        prompt: 'えきをさがしています。なんといいますか。',
+        expectedAnswer: 'えきはどこですか。',
+      },
+      {
+        slug: 'shopping',
+        title: 'Shopping',
+        description: 'Ask the price of something you want.',
+        goal: 'Ask how much an item costs in Japanese.',
+        vocabulary: [
+          {
+            id: 'japanese-shopping-price',
+            term: 'いくら',
+            translation: 'how much',
+            pronunciation: 'ee-koo-rah',
+          },
+          {
+            id: 'japanese-shopping-shirt',
+            term: 'シャツ',
+            translation: 'shirt',
+            pronunciation: 'shah-tsoo',
+          },
+        ],
+        phrase: {
+          id: 'japanese-shopping-phrase',
+          text: 'これはいくらですか。',
+          translation: 'How much is this?',
+          pronunciation: 'koh-reh wah ee-koo-rah dess-kah',
+        },
+        prompt: 'ねだんをきいてください。',
+        expectedAnswer: 'これはいくらですか。',
+      },
+      {
+        slug: 'family-friends',
+        title: 'Family & Friends',
+        description: 'Introduce a friend to someone.',
+        goal: 'Introduce a friend in Japanese.',
+        vocabulary: [
+          {
+            id: 'japanese-family-family',
+            term: 'かぞく',
+            translation: 'family',
+            pronunciation: 'kah-zoh-koo',
+          },
+          {
+            id: 'japanese-family-friend',
+            term: 'ともだち',
+            translation: 'friend',
+            pronunciation: 'toh-moh-dah-chee',
+          },
+        ],
+        phrase: {
+          id: 'japanese-family-phrase',
+          text: 'こちらはわたしのともだちです。',
+          translation: 'This is my friend.',
+          pronunciation: 'koh-chee-rah wah wah-tah-shee noh toh-moh-dah-chee dess',
+        },
+        prompt: 'ともだちをしょうかいしてください。',
+        expectedAnswer: 'こちらはわたしのともだちです。',
+      },
+    ],
+  },
+  {
+    languageId: 'korean',
+    languageName: 'Korean',
+    unitId: 'korean-unit-1-first-conversations',
+    lessons: [
+      {
+        slug: 'daily-life',
+        title: 'Daily Life',
+        description: 'Talk about one part of your daily routine.',
+        goal: 'Describe a morning activity in Korean.',
+        vocabulary: [
+          {
+            id: 'korean-daily-morning',
+            term: '아침',
+            translation: 'morning',
+            pronunciation: 'ah-chim',
+          },
+          {
+            id: 'korean-daily-study',
+            term: '공부하다',
+            translation: 'to study',
+            pronunciation: 'gohng-boo-hah-dah',
+          },
+        ],
+        phrase: {
+          id: 'korean-daily-phrase',
+          text: '아침에 공부해요.',
+          translation: 'I study in the morning.',
+          pronunciation: 'ah-chee-meh gohng-boo-heh-yoh',
+        },
+        prompt: '아침에 뭐 해요?',
+        expectedAnswer: '아침에 공부해요.',
+      },
+      {
+        slug: 'travel-directions',
+        title: 'Travel & Directions',
+        description: 'Ask where the station is and follow directions.',
+        goal: 'Ask for a basic direction in Korean.',
+        vocabulary: [
+          {
+            id: 'korean-directions-left',
+            term: '왼쪽',
+            translation: 'left',
+            pronunciation: 'wen-jjok',
+          },
+          {
+            id: 'korean-directions-right',
+            term: '오른쪽',
+            translation: 'right',
+            pronunciation: 'oh-roon-jjok',
+          },
+        ],
+        phrase: {
+          id: 'korean-directions-phrase',
+          text: '역이 어디예요?',
+          translation: 'Where is the station?',
+          pronunciation: 'yuh-gee uh-dee-yeh-yoh',
+        },
+        prompt: '역을 찾고 있어요. 뭐라고 말해요?',
+        expectedAnswer: '역이 어디예요?',
+      },
+      {
+        slug: 'shopping',
+        title: 'Shopping',
+        description: 'Ask the price of an item.',
+        goal: 'Ask how much something costs in Korean.',
+        vocabulary: [
+          {
+            id: 'korean-shopping-price',
+            term: '얼마',
+            translation: 'how much',
+            pronunciation: 'uhl-mah',
+          },
+          {
+            id: 'korean-shopping-shirt',
+            term: '셔츠',
+            translation: 'shirt',
+            pronunciation: 'shuh-chuh',
+          },
+        ],
+        phrase: {
+          id: 'korean-shopping-phrase',
+          text: '이거 얼마예요?',
+          translation: 'How much is this?',
+          pronunciation: 'ee-guh uhl-mah-yeh-yoh',
+        },
+        prompt: '가격을 물어보세요.',
+        expectedAnswer: '이거 얼마예요?',
+      },
+      {
+        slug: 'family-friends',
+        title: 'Family & Friends',
+        description: 'Introduce a friend or family member.',
+        goal: 'Introduce a friend in Korean.',
+        vocabulary: [
+          {
+            id: 'korean-family-family',
+            term: '가족',
+            translation: 'family',
+            pronunciation: 'gah-jok',
+          },
+          {
+            id: 'korean-family-friend',
+            term: '친구',
+            translation: 'friend',
+            pronunciation: 'chin-goo',
+          },
+        ],
+        phrase: {
+          id: 'korean-family-phrase',
+          text: '이 사람은 제 친구예요.',
+          translation: 'This person is my friend.',
+          pronunciation: 'ee sah-rah-moon jeh chin-goo-yeh-yoh',
+        },
+        prompt: '친구를 소개해 주세요.',
+        expectedAnswer: '이 사람은 제 친구예요.',
+      },
+    ],
+  },
+  {
+    languageId: 'german',
+    languageName: 'German',
+    unitId: 'german-unit-1-first-conversations',
+    lessons: [
+      {
+        slug: 'daily-life',
+        title: 'Daily Life',
+        description: 'Talk about one simple part of your daily routine.',
+        goal: 'Describe a morning activity in German.',
+        vocabulary: [
+          {
+            id: 'german-daily-morning',
+            term: 'der Morgen',
+            translation: 'the morning',
+            pronunciation: 'dehr MOR-gen',
+          },
+          {
+            id: 'german-daily-work',
+            term: 'arbeiten',
+            translation: 'to work',
+            pronunciation: 'AR-bye-ten',
+          },
+        ],
+        phrase: {
+          id: 'german-daily-phrase',
+          text: 'Ich arbeite am Morgen.',
+          translation: 'I work in the morning.',
+          pronunciation: 'ikh AR-bye-tuh ahm MOR-gen',
+        },
+        prompt: 'Was machst du am Morgen?',
+        expectedAnswer: 'Ich arbeite am Morgen.',
+      },
+      {
+        slug: 'travel-directions',
+        title: 'Travel & Directions',
+        description: 'Ask where the station is and follow a direction.',
+        goal: 'Ask for a basic direction in German.',
+        vocabulary: [
+          {
+            id: 'german-directions-left',
+            term: 'links',
+            translation: 'left',
+            pronunciation: 'links',
+          },
+          {
+            id: 'german-directions-right',
+            term: 'rechts',
+            translation: 'right',
+            pronunciation: 'rekhts',
+          },
+        ],
+        phrase: {
+          id: 'german-directions-phrase',
+          text: 'Wo ist der Bahnhof?',
+          translation: 'Where is the train station?',
+          pronunciation: 'voh ist dehr BAHN-hohf',
+        },
+        prompt: 'Du suchst den Bahnhof. Was sagst du?',
+        expectedAnswer: 'Wo ist der Bahnhof?',
+      },
+      {
+        slug: 'shopping',
+        title: 'Shopping',
+        description: 'Ask the price of something in a shop.',
+        goal: 'Ask how much an item costs in German.',
+        vocabulary: [
+          {
+            id: 'german-shopping-price',
+            term: 'der Preis',
+            translation: 'the price',
+            pronunciation: 'dehr PRYCE',
+          },
+          {
+            id: 'german-shopping-shirt',
+            term: 'das Hemd',
+            translation: 'the shirt',
+            pronunciation: 'dahs hehmt',
+          },
+        ],
+        phrase: {
+          id: 'german-shopping-phrase',
+          text: 'Wie viel kostet das?',
+          translation: 'How much does that cost?',
+          pronunciation: 'vee feel KOS-tet dahs',
+        },
+        prompt: 'Du möchtest den Preis wissen. Was sagst du?',
+        expectedAnswer: 'Wie viel kostet das?',
+      },
+      {
+        slug: 'family-friends',
+        title: 'Family & Friends',
+        description: 'Introduce a friend or family member.',
+        goal: 'Introduce a friend in German.',
+        vocabulary: [
+          {
+            id: 'german-family-family',
+            term: 'die Familie',
+            translation: 'the family',
+            pronunciation: 'dee fah-MEE-lee-uh',
+          },
+          {
+            id: 'german-family-friend',
+            term: 'der Freund',
+            translation: 'the friend',
+            pronunciation: 'dehr froynt',
+          },
+        ],
+        phrase: {
+          id: 'german-family-phrase',
+          text: 'Das ist mein Freund.',
+          translation: 'This is my friend.',
+          pronunciation: 'dahs ist mine froynt',
+        },
+        prompt: 'Stell deinen Freund vor.',
+        expectedAnswer: 'Das ist mein Freund.',
+      },
+    ],
+  },
+  {
+    languageId: 'chinese',
+    languageName: 'Mandarin Chinese',
+    unitId: 'chinese-unit-1-first-conversations',
+    lessons: [
+      {
+        slug: 'daily-life',
+        title: 'Daily Life',
+        description: 'Talk about one part of your morning routine.',
+        goal: 'Describe a morning activity in Mandarin Chinese.',
+        vocabulary: [
+          {
+            id: 'chinese-daily-morning',
+            term: '早上',
+            translation: 'morning',
+            pronunciation: 'zǎoshang',
+          },
+          {
+            id: 'chinese-daily-study',
+            term: '学习',
+            translation: 'to study',
+            pronunciation: 'xuéxí',
+          },
+        ],
+        phrase: {
+          id: 'chinese-daily-phrase',
+          text: '我早上学习。',
+          translation: 'I study in the morning.',
+          pronunciation: 'wǒ zǎoshang xuéxí',
+        },
+        prompt: '你早上做什么？',
+        expectedAnswer: '我早上学习。',
+      },
+      {
+        slug: 'travel-directions',
+        title: 'Travel & Directions',
+        description: 'Ask where the station is and follow directions.',
+        goal: 'Ask for a basic direction in Mandarin Chinese.',
+        vocabulary: [
+          {
+            id: 'chinese-directions-left',
+            term: '左边',
+            translation: 'left side',
+            pronunciation: 'zuǒbian',
+          },
+          {
+            id: 'chinese-directions-right',
+            term: '右边',
+            translation: 'right side',
+            pronunciation: 'yòubian',
+          },
+        ],
+        phrase: {
+          id: 'chinese-directions-phrase',
+          text: '车站在哪里？',
+          translation: 'Where is the station?',
+          pronunciation: 'chēzhàn zài nǎlǐ',
+        },
+        prompt: '你在找车站。你怎么问？',
+        expectedAnswer: '车站在哪里？',
+      },
+      {
+        slug: 'shopping',
+        title: 'Shopping',
+        description: 'Ask how much an item costs.',
+        goal: 'Ask the price of an item in Mandarin Chinese.',
+        vocabulary: [
+          {
+            id: 'chinese-shopping-price',
+            term: '多少钱',
+            translation: 'how much money',
+            pronunciation: 'duōshao qián',
+          },
+          {
+            id: 'chinese-shopping-shirt',
+            term: '衬衫',
+            translation: 'shirt',
+            pronunciation: 'chènshān',
+          },
+        ],
+        phrase: {
+          id: 'chinese-shopping-phrase',
+          text: '这个多少钱？',
+          translation: 'How much is this?',
+          pronunciation: 'zhège duōshao qián',
+        },
+        prompt: '你想知道价格。你怎么问？',
+        expectedAnswer: '这个多少钱？',
+      },
+      {
+        slug: 'family-friends',
+        title: 'Family & Friends',
+        description: 'Introduce a friend or family member.',
+        goal: 'Introduce a friend in Mandarin Chinese.',
+        vocabulary: [
+          {
+            id: 'chinese-family-family',
+            term: '家人',
+            translation: 'family member',
+            pronunciation: 'jiārén',
+          },
+          {
+            id: 'chinese-family-friend',
+            term: '朋友',
+            translation: 'friend',
+            pronunciation: 'péngyou',
+          },
+        ],
+        phrase: {
+          id: 'chinese-family-phrase',
+          text: '这是我的朋友。',
+          translation: 'This is my friend.',
+          pronunciation: 'zhè shì wǒ de péngyou',
+        },
+        prompt: '请介绍你的朋友。',
+        expectedAnswer: '这是我的朋友。',
+      },
+    ],
+  },
+];
+
+const supplementalLessons = supplementalLanguageLessons.flatMap(
+  ({ languageId, languageName, lessons: lessonContent, unitId }) =>
+    lessonContent.map((content, index): Lesson => {
+      const lessonId = `${languageId}-${content.slug}`;
+
+      return {
+        id: lessonId,
+        unitId,
+        languageId,
+        order: index + 3,
+        level: 'A1',
+        format:
+          index === lessonContent.length - 1
+            ? 'review'
+            : index === 0
+              ? 'ai-audio'
+              : 'guided-practice',
+        title: content.title,
+        description: content.description,
+        durationMinutes: 9 + (index % 2),
+        xpReward: index === lessonContent.length - 1 ? 20 : 15,
+        goal: {
+          summary: content.goal,
+          outcomes: [
+            `Recognize useful ${languageName} vocabulary for this topic.`,
+            'Say one complete beginner phrase with confidence.',
+          ],
+        },
+        vocabulary: content.vocabulary,
+        phrases: [content.phrase],
+        activities: [
+          {
+            id: `${lessonId}-repeat`,
+            type: 'repeat',
+            instruction: 'Repeat the key phrase aloud.',
+            prompt: content.phrase.text,
+            expectedAnswer: content.phrase.text,
+          },
+          {
+            id: `${lessonId}-conversation`,
+            type: 'conversation',
+            instruction: 'Answer the teacher using the lesson phrase.',
+            prompt: content.prompt,
+            expectedAnswer: content.expectedAnswer,
+          },
+        ],
+        teacherOpeningLine: `Let’s practice ${content.title.toLocaleLowerCase()} with one useful ${languageName} phrase.`,
+        aiTeacherPrompt: createTeacherPrompt({
+          language: languageName,
+          goal: content.goal,
+          focus: [
+            ...content.vocabulary.map((item) => item.term),
+            content.phrase.text,
+          ].join(', '),
+        }),
+      };
+    }),
+);
+
 export const lessons: Lesson[] = [
   {
     id: 'spanish-greetings',
@@ -1155,6 +1832,7 @@ export const lessons: Lesson[] = [
       focus: '茶, 水, 请给我, 一杯, and 谢谢',
     }),
   },
+  ...supplementalLessons,
 ];
 
 export function getLessonsByLanguage(languageId: LanguageId) {
