@@ -5,6 +5,9 @@ import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { styled } from 'nativewind';
+
+const StyledImage = styled(Image);
 
 export default function OnboardingScreen() {
   return (
@@ -17,7 +20,7 @@ export default function OnboardingScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-row items-center justify-center gap-2.5 pt-3">
-          <Image
+          <StyledImage
             source={images.mascotLogo}
             contentFit="contain"
             className="size-14.5"
@@ -59,7 +62,7 @@ export default function OnboardingScreen() {
 
             <View className="relative size-[390px] items-center justify-center">
               <View className="absolute bottom-[42px] h-2 w-[220px] rounded-full bg-text-primary opacity-10" />
-              <Image
+              <StyledImage
                 source={images.mascotWelcome}
                 contentFit="contain"
                 className="size-[390px]"
@@ -69,12 +72,12 @@ export default function OnboardingScreen() {
         </View>
 
         <View className="px-7 pb-3 pt-5">
-          <Link href="/" asChild>
+          <Link href="/sign-up" asChild>
             <TouchableOpacity activeOpacity={0.86} style={styles.getStartedButton}>
               <Text className="font-inter-semibold text-[19px] leading-6 text-background">
                 Get Started
               </Text>
-              <Text className="absolute bottom-[15px] right-[27px] font-inter-regular text-[38px] leading-[42px] text-background">
+              <Text className="will-change-variable absolute bottom-[15px] right-[27px] font-inter-regular text-[38px] leading-[42px] text-background">
                 ›
               </Text>
             </TouchableOpacity>

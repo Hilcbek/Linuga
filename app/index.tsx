@@ -1,9 +1,15 @@
-import { Link } from 'expo-router';
+import { useClerk } from '@clerk/expo';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { colors } from '@/theme';
 
 export default function Index() {
+  const { signOut } = useClerk();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
+
   return (
     <View className="flex-1 items-center justify-center bg-background px-6">
       <Text className="type--h1 text-center">Lingua</Text>
@@ -11,17 +17,15 @@ export default function Index() {
         Your AI-powered language learning app.
       </Text>
 
-      <Link href="/onboarding" asChild>
-        <TouchableOpacity activeOpacity={0.86} style={styles.link}>
-          <Text className="font-inter-semibold text-base text-background">Open onboarding</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity activeOpacity={0.86} onPress={() => void handleLogout()} style={styles.button}>
+        <Text className="font-inter-semibold text-base text-background">Log out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  link: {
+  button: {
     minHeight: 52,
     marginTop: 28,
     paddingHorizontal: 24,

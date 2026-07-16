@@ -1,4 +1,4 @@
-import { ClerkProvider } from '@clerk/expo';
+import { ClerkProvider, useAuth } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import {
   Inter_100Thin,
@@ -9,8 +9,9 @@ import {
   Inter_900Black,
   useFonts,
 } from '@expo-google-fonts/inter';
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import '../global.css';
 
@@ -20,8 +21,8 @@ if (!publishableKey) {
   throw new Error('Add your Clerk Publishable Key to the .env file');
 }
 
-  
 SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     'Inter-Thin': Inter_100Thin,
@@ -42,7 +43,27 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <Slot />
+      <StatusBar animated backgroundColor="#000" style="light" />
+      <RootNavigator />
     </ClerkProvider>
+  );
+}
+
+function RootNavigator() {
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) return null;
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={isSignedIn}>
+        <Stack.Screen name="index" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={!isSignedIn}>
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(auth)" />
+      </Stack.Protected>
+    </Stack>
   );
 }
