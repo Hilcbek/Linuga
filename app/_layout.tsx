@@ -58,6 +58,7 @@ function RootNavigator() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={isSignedIn}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="language-selection" />
       </Stack.Protected>
 
       <Stack.Protected guard={!isSignedIn}>
