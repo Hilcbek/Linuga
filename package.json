@@ -14,6 +14,7 @@
     "@clerk/expo": "^3.7.5",
     "@expo-google-fonts/inter": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
@@ -47,6 +48,7 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@react-native-community/cli": "^20.2.0",
     "@tailwindcss/postcss": "^4.3.2",
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
