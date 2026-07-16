@@ -174,12 +174,22 @@ export function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View className="h-13 flex-row items-center">
-          <StyledImage
-            accessibilityLabel={`${selectedLanguage.name} flag`}
-            className="size-10 rounded-full"
-            contentFit="cover"
-            source={{ uri: selectedLanguage.flagEmoji }}
-          />
+          <TouchableOpacity
+            accessibilityHint="Opens language selection"
+            accessibilityLabel={`Change language. Currently learning ${selectedLanguage.name}`}
+            accessibilityRole="button"
+            activeOpacity={0.76}
+            className="size-10 overflow-hidden rounded-full"
+            hitSlop={8}
+            onPress={() => router.push('/language-selection')}
+          >
+            <StyledImage
+              accessibilityLabel={`${selectedLanguage.name} flag`}
+              className="size-full"
+              contentFit="cover"
+              source={{ uri: selectedLanguage.flagEmoji }}
+            />
+          </TouchableOpacity>
 
           <Text
             className="min-w-0 flex-1 pl-3 font-inter-semibold text-[17px] leading-6 text-text-primary"

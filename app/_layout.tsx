@@ -14,7 +14,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
-import { useLanguageStore } from '@/store/language-store';
+import {
+  useLanguageStore,
+  useLanguageStoreHydration,
+} from '@/store/language-store';
 
 import '../global.css';
 
@@ -54,7 +57,7 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { isLoaded, isSignedIn } = useAuth();
-  const hasHydrated = useLanguageStore((state) => state.hasHydrated);
+  const hasHydrated = useLanguageStoreHydration();
   const selectedLanguageId = useLanguageStore((state) => state.selectedLanguageId);
 
   if (!isLoaded || (isSignedIn && !hasHydrated)) return null;
