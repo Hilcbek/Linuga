@@ -1,0 +1,12 @@
+[project]
+name = "lingua-vision-agent"
+version = "0.1.0"
+description = "Voice-only AI language teacher for Lingua"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "vision-agents[gemini,getstream]==0.6.7",
+]
+
+[tool.uv]
+package = false

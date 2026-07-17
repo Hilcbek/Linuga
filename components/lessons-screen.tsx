@@ -27,25 +27,31 @@ type LessonTab = 'lessons' | 'practice';
 type LessonStatus = 'completed' | 'in-progress' | 'upcoming';
 
 function getLessonScene(lesson: Lesson): ImageSource {
-  const normalizedTitle = lesson.title.toLocaleLowerCase();
+  const normalizedLessonId = lesson.id.toLocaleLowerCase();
 
-  if (normalizedTitle.includes('café') || normalizedTitle.includes('cafe')) {
+  if (normalizedLessonId.includes('cafe')) {
     return images.lessonScenes.cafe;
   }
 
-  if (normalizedTitle.includes('daily')) {
+  if (normalizedLessonId.includes('daily')) {
     return images.lessonScenes.dailyLife;
   }
 
-  if (normalizedTitle.includes('travel') || normalizedTitle.includes('direction')) {
+  if (
+    normalizedLessonId.includes('travel') ||
+    normalizedLessonId.includes('direction')
+  ) {
     return images.lessonScenes.travel;
   }
 
-  if (normalizedTitle.includes('shopping')) {
+  if (normalizedLessonId.includes('shopping')) {
     return images.lessonScenes.shopping;
   }
 
-  if (normalizedTitle.includes('family') || normalizedTitle.includes('friend')) {
+  if (
+    normalizedLessonId.includes('family') ||
+    normalizedLessonId.includes('friend')
+  ) {
     return images.lessonScenes.family;
   }
 
@@ -54,9 +60,7 @@ function getLessonScene(lesson: Lesson): ImageSource {
 
 function getInitialLesson(lessons: Lesson[]) {
   return (
-    lessons.find((lesson) =>
-      lesson.title.toLocaleLowerCase().includes('café'),
-    ) ??
+    lessons.find((lesson) => lesson.id.toLocaleLowerCase().includes('cafe')) ??
     lessons[0]
   );
 }
@@ -81,9 +85,14 @@ function LessonCard({
         pathname: '/audio-lesson',
         params: { lessonId: lesson.id },
       }}
+      push
     >
       <TouchableOpacity
-        accessibilityHint="Opens the audio lesson"
+        accessibilityHint={
+          status === 'upcoming'
+            ? 'Opens this locked audio lesson'
+            : 'Opens the audio lesson'
+        }
         accessibilityLabel={`Lesson ${lesson.order}, ${lesson.title}, ${status.replace('-', ' ')}`}
         accessibilityRole="button"
         accessibilityState={{ selected: isInProgress }}

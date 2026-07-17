@@ -6,7 +6,7 @@ export const units: LearningUnit[] = [
     languageId: 'spanish',
     order: 3,
     level: 'A1',
-    title: 'At the Café',
+    title: 'En el café',
     description: 'Practice friendly conversations for everyday places and people.',
   },
   {
@@ -14,7 +14,7 @@ export const units: LearningUnit[] = [
     languageId: 'french',
     order: 1,
     level: 'A1',
-    title: 'First Conversations',
+    title: 'Premières conversations',
     description: 'Learn how to greet people and order something politely.',
   },
   {
@@ -22,7 +22,7 @@ export const units: LearningUnit[] = [
     languageId: 'japanese',
     order: 1,
     level: 'A1',
-    title: 'First Conversations',
+    title: 'はじめての会話',
     description: 'Use polite greetings and simple café phrases.',
   },
   {
@@ -30,7 +30,7 @@ export const units: LearningUnit[] = [
     languageId: 'korean',
     order: 1,
     level: 'A1',
-    title: 'First Conversations',
+    title: '첫 대화',
     description: 'Practice friendly greetings and simple requests.',
   },
   {
@@ -38,7 +38,7 @@ export const units: LearningUnit[] = [
     languageId: 'german',
     order: 1,
     level: 'A1',
-    title: 'First Conversations',
+    title: 'Erste Gespräche',
     description: 'Introduce yourself and order at a café.',
   },
   {
@@ -46,7 +46,7 @@ export const units: LearningUnit[] = [
     languageId: 'chinese',
     order: 1,
     level: 'A1',
-    title: 'First Conversations',
+    title: '初次对话',
     description: 'Learn basic Mandarin greetings and useful requests.',
   },
 ];

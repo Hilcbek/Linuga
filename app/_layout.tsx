@@ -67,6 +67,7 @@ function RootNavigator() {
       <Stack.Protected guard={isSignedIn}>
         <Stack.Protected guard={Boolean(selectedLanguageId)}>
           <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="audio-lesson" />
         </Stack.Protected>
 
         <Stack.Screen name="language-selection" />

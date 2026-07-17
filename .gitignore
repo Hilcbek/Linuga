@@ -39,6 +39,12 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Python / Vision Agent
+vision-agent/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
 app-example
 
 # generated native folders

@@ -63,6 +63,10 @@ export function BottomTabBar({
   const pathname = usePathname();
   const router = useRouter();
 
+  if (pathname === '/audio-lesson') {
+    return null;
+  }
+
   return (
     <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, 8) }]}>
       <View style={styles.tabRow}>
@@ -73,7 +77,7 @@ export function BottomTabBar({
           const options = route ? descriptors[route.key]?.options : undefined;
           const isFocused =
             tabItem.routeName === 'learn'
-              ? pathname === '/learn' || pathname === '/audio-lesson'
+              ? pathname === '/learn'
               : tabItem.routeName === 'index'
               ? pathname === '/'
               : pathname === tabItem.href ||

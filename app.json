@@ -24,7 +24,7 @@
       "package": "com.bereket_naz.Lingua"
     },
     "web": {
-      "output": "static",
+      "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -43,7 +43,23 @@
         }
       ],
       "expo-font",
-      "@clerk/expo"
+      "@clerk/expo",
+      "@stream-io/video-react-native-sdk",
+      [
+        "@config-plugins/react-native-webrtc",
+        {
+          "cameraPermission": "$(PRODUCT_NAME) uses camera access only when a lesson enables video",
+          "microphonePermission": "$(PRODUCT_NAME) requires microphone access for live audio lessons"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 24
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

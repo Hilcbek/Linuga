@@ -46,7 +46,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
     lessons: [
       {
         slug: 'daily-life',
-        title: 'Daily Life',
+        title: 'La vie quotidienne',
         description: 'Talk about one simple part of your daily routine.',
         goal: 'Describe a simple morning routine in French.',
         vocabulary: [
@@ -74,7 +74,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'travel-directions',
-        title: 'Travel & Directions',
+        title: 'Voyages et directions',
         description: 'Ask where a place is and follow a simple direction.',
         goal: 'Ask for and understand a basic direction in French.',
         vocabulary: [
@@ -102,7 +102,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'shopping',
-        title: 'Shopping',
+        title: 'Les achats',
         description: 'Ask the price of an item in a shop.',
         goal: 'Ask how much something costs in French.',
         vocabulary: [
@@ -130,7 +130,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'family-friends',
-        title: 'Family & Friends',
+        title: 'Famille et amis',
         description: 'Introduce a friend or family member.',
         goal: 'Introduce someone important to you in French.',
         vocabulary: [
@@ -165,7 +165,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
     lessons: [
       {
         slug: 'daily-life',
-        title: 'Daily Life',
+        title: '日常生活',
         description: 'Talk about a simple part of your morning.',
         goal: 'Describe one morning activity in Japanese.',
         vocabulary: [
@@ -193,7 +193,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'travel-directions',
-        title: 'Travel & Directions',
+        title: '旅行と道案内',
         description: 'Ask where the station is and understand directions.',
         goal: 'Ask for a basic direction in Japanese.',
         vocabulary: [
@@ -221,7 +221,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'shopping',
-        title: 'Shopping',
+        title: '買い物',
         description: 'Ask the price of something you want.',
         goal: 'Ask how much an item costs in Japanese.',
         vocabulary: [
@@ -249,7 +249,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'family-friends',
-        title: 'Family & Friends',
+        title: '家族と友達',
         description: 'Introduce a friend to someone.',
         goal: 'Introduce a friend in Japanese.',
         vocabulary: [
@@ -284,7 +284,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
     lessons: [
       {
         slug: 'daily-life',
-        title: 'Daily Life',
+        title: '일상생활',
         description: 'Talk about one part of your daily routine.',
         goal: 'Describe a morning activity in Korean.',
         vocabulary: [
@@ -312,7 +312,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'travel-directions',
-        title: 'Travel & Directions',
+        title: '여행과 길 찾기',
         description: 'Ask where the station is and follow directions.',
         goal: 'Ask for a basic direction in Korean.',
         vocabulary: [
@@ -340,7 +340,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'shopping',
-        title: 'Shopping',
+        title: '쇼핑',
         description: 'Ask the price of an item.',
         goal: 'Ask how much something costs in Korean.',
         vocabulary: [
@@ -368,7 +368,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'family-friends',
-        title: 'Family & Friends',
+        title: '가족과 친구',
         description: 'Introduce a friend or family member.',
         goal: 'Introduce a friend in Korean.',
         vocabulary: [
@@ -403,7 +403,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
     lessons: [
       {
         slug: 'daily-life',
-        title: 'Daily Life',
+        title: 'Alltag',
         description: 'Talk about one simple part of your daily routine.',
         goal: 'Describe a morning activity in German.',
         vocabulary: [
@@ -431,7 +431,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'travel-directions',
-        title: 'Travel & Directions',
+        title: 'Reisen und Wegbeschreibungen',
         description: 'Ask where the station is and follow a direction.',
         goal: 'Ask for a basic direction in German.',
         vocabulary: [
@@ -459,7 +459,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'shopping',
-        title: 'Shopping',
+        title: 'Einkaufen',
         description: 'Ask the price of something in a shop.',
         goal: 'Ask how much an item costs in German.',
         vocabulary: [
@@ -487,7 +487,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'family-friends',
-        title: 'Family & Friends',
+        title: 'Familie und Freunde',
         description: 'Introduce a friend or family member.',
         goal: 'Introduce a friend in German.',
         vocabulary: [
@@ -522,7 +522,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
     lessons: [
       {
         slug: 'daily-life',
-        title: 'Daily Life',
+        title: '日常生活',
         description: 'Talk about one part of your morning routine.',
         goal: 'Describe a morning activity in Mandarin Chinese.',
         vocabulary: [
@@ -550,7 +550,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'travel-directions',
-        title: 'Travel & Directions',
+        title: '旅行与问路',
         description: 'Ask where the station is and follow directions.',
         goal: 'Ask for a basic direction in Mandarin Chinese.',
         vocabulary: [
@@ -578,7 +578,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'shopping',
-        title: 'Shopping',
+        title: '购物',
         description: 'Ask how much an item costs.',
         goal: 'Ask the price of an item in Mandarin Chinese.',
         vocabulary: [
@@ -606,7 +606,7 @@ const supplementalLanguageLessons: SupplementalLanguageLessons[] = [
       },
       {
         slug: 'family-friends',
-        title: 'Family & Friends',
+        title: '家人与朋友',
         description: 'Introduce a friend or family member.',
         goal: 'Introduce a friend in Mandarin Chinese.',
         vocabulary: [
@@ -703,7 +703,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: 'Saludos y presentaciones',
     description: 'Say hello, share your name, and meet someone new.',
     durationMinutes: 8,
     xpReward: 10,
@@ -783,7 +783,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Daily Life',
+    title: 'La vida diaria',
     description: 'Talk about a few simple parts of your day.',
     durationMinutes: 9,
     xpReward: 10,
@@ -859,7 +859,7 @@ export const lessons: Lesson[] = [
     order: 3,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: 'En el café',
     description: 'Order a drink and respond politely at a café.',
     durationMinutes: 10,
     xpReward: 15,
@@ -941,7 +941,7 @@ export const lessons: Lesson[] = [
     order: 4,
     level: 'A1',
     format: 'guided-practice',
-    title: 'Travel & Directions',
+    title: 'Viajes y direcciones',
     description: 'Ask where a place is and understand a basic direction.',
     durationMinutes: 10,
     xpReward: 15,
@@ -1017,7 +1017,7 @@ export const lessons: Lesson[] = [
     order: 5,
     level: 'A1',
     format: 'guided-practice',
-    title: 'Shopping',
+    title: 'De compras',
     description: 'Ask for a price and choose something you want.',
     durationMinutes: 9,
     xpReward: 15,
@@ -1093,7 +1093,7 @@ export const lessons: Lesson[] = [
     order: 6,
     level: 'A1',
     format: 'review',
-    title: 'Family & Friends',
+    title: 'Familia y amigos',
     description: 'Introduce the important people in your life.',
     durationMinutes: 10,
     xpReward: 20,
@@ -1169,7 +1169,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: 'Salutations et présentations',
     description: 'Greet someone and say your name in French.',
     durationMinutes: 8,
     xpReward: 10,
@@ -1236,7 +1236,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: 'Au café',
     description: 'Order a drink politely in French.',
     durationMinutes: 9,
     xpReward: 15,
@@ -1303,7 +1303,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: 'あいさつと自己紹介',
     description: 'Use a polite greeting and share your name.',
     durationMinutes: 8,
     xpReward: 10,
@@ -1370,7 +1370,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: 'カフェで',
     description: 'Order a drink with a simple polite phrase.',
     durationMinutes: 9,
     xpReward: 15,
@@ -1437,7 +1437,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: '인사와 자기소개',
     description: 'Say hello and introduce yourself politely.',
     durationMinutes: 8,
     xpReward: 10,
@@ -1504,7 +1504,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: '카페에서',
     description: 'Ask for a drink in a Korean café.',
     durationMinutes: 9,
     xpReward: 15,
@@ -1571,7 +1571,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: 'Begrüßungen und Vorstellungen',
     description: 'Say hello and tell someone your name.',
     durationMinutes: 8,
     xpReward: 10,
@@ -1638,7 +1638,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: 'Im Café',
     description: 'Order a drink politely in German.',
     durationMinutes: 9,
     xpReward: 15,
@@ -1705,7 +1705,7 @@ export const lessons: Lesson[] = [
     order: 1,
     level: 'A1',
     format: 'ai-audio',
-    title: 'Greetings & Introductions',
+    title: '问候与自我介绍',
     description: 'Say hello and share your name in Mandarin.',
     durationMinutes: 8,
     xpReward: 10,
@@ -1772,7 +1772,7 @@ export const lessons: Lesson[] = [
     order: 2,
     level: 'A1',
     format: 'ai-audio',
-    title: 'At the Café',
+    title: '在咖啡馆',
     description: 'Order a drink with a simple Mandarin phrase.',
     durationMinutes: 9,
     xpReward: 15,
